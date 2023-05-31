@@ -1,0 +1,6 @@
+- There will be Department and Personnel tables, and they will be connected to each other. Each department will have its own personnel.
+- A user with "Staff" privilege will be able to add new personnel to the list and update them. (The user must be designated as "is_staff".)
+- Based on the dynamic URL, the response will change according to the request received. In other words, when listing the personnel belonging to departments, it will be done through a single URL.
+- Non-staff users will only be able to view the list.
+- Only superusers will have the authority to delete personnel.
+- Token authentication will be used, and the token will be deleted when the user logs out.
