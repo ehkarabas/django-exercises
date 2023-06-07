@@ -2,8 +2,13 @@
 	<h1>Flight API</h1>
 </div>
 
-_Wait a while for the explanatory gif to load..._
+<div align="center">
+	<a href="https://ehkarabas.pythonanywhere.com/">
+		<img src="https://img.shields.io/badge/live-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
+	</a>
+</div>
 
+_Wait a while for the explanatory gif to load..._
 
 <div align="center">
 	<img src="./presentation/flight_api-presentation.gif"/>
@@ -61,68 +66,82 @@ To run this app on your local, run commands below on the terminal:
 ## Resource Structure 
 
 ```
-postlogger_api_client(folder)
+flight_api(folder)
 |
 |-- README.md
-|-- api
-|   |-- db.sqlite3
-|   |-- main
+|-- core
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   |-- __init__.cpython-311.pyc
+|   |   |-- settings.cpython-311.pyc
+|   |   |-- urls.cpython-311.pyc
+|   |   |-- wsgi.cpython-311.pyc
+|   |-- asgi.py
+|   |-- settings
 |   |   |-- __init__.py
 |   |   |-- __pycache__
 |   |   |   |-- __init__.cpython-311.pyc
-|   |   |   |-- settings.cpython-311.pyc
-|   |   |   |-- urls.cpython-311.pyc
-|   |   |   |-- wsgi.cpython-311.pyc
-|   |   |-- asgi.py
-|   |   |-- settings.py
-|   |   |-- urls.py
-|   |   |-- wsgi.py
-|   |-- manage.py
-|   |-- requirements.txt
-|   |-- tutorial
-|       |-- __init__.py
-|       |-- __pycache__
-|       |   |-- __init__.cpython-311.pyc
-|       |   |-- admin.cpython-311.pyc
-|       |   |-- apps.cpython-311.pyc
-|       |   |-- models.cpython-311.pyc
-|       |   |-- serializers.cpython-311.pyc
-|       |   |-- urls.cpython-311.pyc
-|       |   |-- views.cpython-311.pyc
-|       |-- admin.py
-|       |-- apps.py
-|       |-- migrations
-|       |   |-- 0001_initial.py
-|       |   |-- __init__.py
-|       |   |-- __pycache__
-|       |       |-- 0001_initial.cpython-311.pyc
-|       |       |-- __init__.cpython-311.pyc
-|       |-- models.py
-|       |-- serializers.py
-|       |-- tests.py
-|       |-- urls.py
-|       |-- views.py
-|-- client
-|   |-- package.json
-|   |-- public
-|   |   |-- favicon.ico
-|   |   |-- index.html
-|   |   |-- logo192.png
-|   |   |-- logo512.png
-|   |   |-- manifest.json
-|   |   |-- robots.txt
-|   |-- src
-|   |   |-- App.js
-|   |   |-- components
-|   |   |   |-- AddTutorial.jsx
-|   |   |   |-- EditTutorial.jsx
-|   |   |   |-- TutorialList.jsx
-|   |   |-- index.js
-|   |   |-- pages
-|   |       |-- Home.jsx
-|   |-- yarn.lock
+|   |   |   |-- base.cpython-311.pyc
+|   |   |   |-- development.cpython-311.pyc
+|   |   |-- production.cpython-311.pyc
+|   |   |-- base.py
+|   |   |-- development.py
+|   |   |-- production.py
+|   |-- urls.py
+|   |-- wsgi.py
+|-- db.sqlite3
+|-- flight
+|   |-- __init__.py
+|   |-- __pycache__
+|   |   |-- __init__.cpython-311.pyc
+|   |   |-- admin.cpython-311.pyc
+|   |   |-- apps.cpython-311.pyc
+|   |   |-- models.cpython-311.pyc
+|   |   |-- serializers.cpython-311.pyc
+|   |   |-- urls.cpython-311.pyc
+|   |   |-- views.cpython-311.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- migrations
+|   |   |-- 0001_initial.py
+|   |   |-- 0002_alter_reservation_flight_alter_reservation_passenger.py
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |       |-- 0001_initial.cpython-311.pyc
+|   |       |-- 0002_alter_reservation_flight_alter_reservation_passenger.cpython-311.pyc
+|   |   |-- __init__.cpython-311.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- tests.py
+|   |-- urls.py
+|   |-- views.py
+|-- manage.py
 |-- presentation
-    |-- postlogger_api_client-presentation.gif
+|   |-- flight_api-presentation.gif
+|-- references
+|   |-- drawSQL-flightapi-export-2023-05-20.png
+|   |-- drawSQL-pgsql-export-2023-05-20.sql
+|-- requirements.txt
+|-- user
+    |-- __init__.py
+    |-- __pycache__
+    |   |-- __init__.cpython-311.pyc
+    |   |-- admin.cpython-311.pyc
+    |   |-- apps.cpython-311.pyc
+    |   |-- models.cpython-311.pyc
+    |   |-- serializers.cpython-311.pyc
+    |   |-- urls.cpython-311.pyc
+    |   |-- views.cpython-311.pyc
+    |-- admin.py
+    |-- apps.py
+    |-- migrations
+    |   |-- __init__.py
+    |   |-- __pycache__
+    |   |-- __init__.cpython-311.pyc
+    |-- models.py
+    |-- serializers.py
+    |-- tests.py
+    |-- urls.py
+    |-- views.py
 ```
-
 
