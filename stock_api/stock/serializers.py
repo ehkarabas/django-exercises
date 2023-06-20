@@ -1,0 +1,138 @@
+from rest_framework import serializers
+
+# ---------------------------------
+# FixSerializer
+# ---------------------------------
+class FixSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    user_id = serializers.IntegerField(required=False, read_only=True)
+
+    def create(self, validated_data):
+        validated_data['user_id'] = self.context['request'].user.id
+        return super().create(validated_data)
+
+# ---------------------------------
+# Serializers
+# ---------------------------------
+from .models import (
+    Category,
+    Brand,
+    Product,
+    Firm,
+    Purchase,
+    Sale,
+)
+
+
+class CategorySerializer(FixSerializer):
+    product_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        exclude = []
+
+    # Her birobjedeki ürün sayısı:
+    def get_product_count(self,obj):
+        return Product.objects.filter(category_id=obj.id).count()
+
+
+class BrandSerializer(FixSerializer):
+    product_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Brand
+        exclude = []
+
+    # Her birobjedeki ürün sayısı:
+    def get_product_count(self,obj):
+        return Product.objects.filter(brand_id=obj.id).count()
+
+
+class ProductSerializer(FixSerializer):
+    category = serializers.StringRelatedField()
+    # category_id = serializers.IntegerField()
+    category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    brand = serializers.StringRelatedField()
+    # brand_id = serializers.IntegerField()
+    brand_id = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())
+
+    class Meta:
+        model = Product
+        exclude = []
+
+
+class FirmSerializer(FixSerializer):
+
+    class Meta:
+        model = Firm
+        exclude = []
+
+
+class PurchaseSerializer(FixSerializer):
+    firm = serializers.StringRelatedField()
+    # firm_id = serializers.IntegerField()
+    firm_id = serializers.PrimaryKeyRelatedField(queryset=Firm.objects.all())
+    brand = serializers.StringRelatedField()
+    # brand_id = serializers.IntegerField()
+    brand_id = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())
+    product = serializers.StringRelatedField()
+    # product_id = serializers.IntegerField()
+    product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+    category = serializers.SerializerMethodField()
+    # price_total = serializers.SerializerMethodField() # price total'i DRF tabanli gostermek(admin panel'de goruntulenemez)
+
+    class Meta:
+        model = Purchase
+        exclude = []
+        read_only_fields = ['price_total']
+
+    # Üründen kategori bilgisini ver:
+    def get_category(self, obj):
+        products = Product.objects.filter(id=obj.product_id).values()
+        category_id= products[0]['category_id']
+        return list(Category.objects.filter(id=category_id).values())
+    
+    # # price total'i DRF tabanli gostermek(admin panel'de goruntulenemez)
+    # def get_price_total(self, obj):
+    #     return obj.quantity * obj.price
+
+
+class SaleSerializer(FixSerializer):
+    brand = serializers.StringRelatedField()
+    # brand_id ve product_id alanları basit IntegerField olarak tanımlanirsa herhangi bir doğrulama yapmadan POST ve UPDATE'te bunlari isler, yani rastgele bir sayi da girilse kabul eder, bu id'lerin gercekten bir product veya brand id'si olup olmadigina bakmaz. Bu dogrulamayi saglayarak daha saglikli POST ve UPDATE islemleri gerceklestirmek icin IntegerField yerine PrimaryKeyRelatedField kullanilmalidir.
+    # brand_id = serializers.IntegerField()
+    brand_id = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())
+    product = serializers.StringRelatedField()
+    # product_id = serializers.IntegerField()
+    product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+    category = serializers.SerializerMethodField()
+    # price_total = serializers.SerializerMethodField() # price total'i DRF tabanli gostermek(admin panel'de goruntulenemez)
+
+    class Meta:
+        model = Sale
+        exclude = []
+        read_only_fields = ['price_total']
+
+    # Üründen kategori bilgisini ver:
+    def get_category(self, obj):
+        products = Product.objects.filter(id=obj.product_id).values()
+        category_id= products[0]['category_id']
+        return list(Category.objects.filter(id=category_id).values())
+    
+    # Stokta yeteri kadar yoksa satış yapma(DRF Template icin):
+    def validate(self, data):
+        product = Product.objects.get(id=data.get('product_id'))
+        if data.get('quantity') > product.stock:
+            raise serializers.ValidationError(f'Dont have enough stock. Current stock is {product.stock}')
+        return data
+    
+    # # price total'i DRF tabanli gostermek(admin panel'de goruntulenemez)
+    # def get_price_total(self, obj):
+    #     return obj.quantity * obj.price
+    
+# ---------------------------------
+# Extra Serializers
+# ---------------------------------
+# Kategoriye bağlı ürünleri göster (realeted_name):
+class CategoryProductsSerializer(CategorySerializer):
+    category_products = ProductSerializer(many = True)
