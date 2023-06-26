@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+{% comment %} <form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+    <button type="submit">Submit</button>
+</form> {% endcomment %}
+
+<div class="mx-auto d-flex justify-content-center align-items-center pt-5">
+  <div class="card">
+      <div class="card-body">
+          <h2>{{ title }}</h2> {# Sayfa Başlığı #}
+          <hr>
+          <form action="" method="POST">
+              {% csrf_token %}
+              <table>{{ form }}</table>
+              {% comment %} {{ form.as_p }} {% endcomment %}
+              <br>
+              <input class="btn btn-primary" type="submit" value="OK">
+          </form>
+      </div>
+  </div>
+</div>
+
+{% endblock container %}

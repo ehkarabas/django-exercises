@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<div class="d-flex flex-column justify-content-center mx-auto pt-5 col-9">
+    <div class="alert alert-warning text-center p-1"> <h1>{{ user.username | upper }}'s Orders</h1></div>
+    {% for order in orders  %}
+    <div class="card m-2 shadow p-2" >
+        <div class="row g-0 d-flex justify-content-between">
+            <div class="col-md-1 d-flex align-items-center">
+                {% comment %} 
+                  ListView ve DetailView, belirli bir model üzerinde çalışır ve bu model nesnelerini doğrudan içeriğine ("context") yerleştirir. Dolayısıyla bu view'lar üzerinden context içerisinde model nesnelerine ve bu nesnelerin fieldlarına doğrudan erişebiliriz.
+
+                  Diğer yandan, CreateView, UpdateView ve DeleteView gibi form temelli view'lar bir ModelForm nesnesi üzerinde çalışır. Bu view'lar bir form nesnesini içeriğine yerleştirir ve form, model nesnesinin bir temsilcisidir. Ancak form, bir model nesnesinin tam bir kopyası olmayıp, belirli fieldları ve validasyonları içerir.
+
+                  Bu form temelli view'larda model nesnesine ve onun fieldlarına dolaylı olarak (form.instance aracılığıyla) erişilebilir. UpdateView ve DeleteView form temelli görünümlerinde, form.instance aracılığıyla güncellenen ya da silinen model nesnesine erişebilirsiniz. Bu görünümler, form örneğini(form.instance), bir model örneği ile doldurmak için belirli bir veritabanı kaydını kullanır. Bu nesne, modelin pk veya slug gibi alanlarına göre belirlenebilir. Örneğin, bir UpdateView'da form.instance.field şeklinde bir form alanına erişim sağlanabilir. Ancak CreateView görünümünde, form ilk oluşturulduğunda, form.instance bir model nesnesine işaret eder ancak bu nesne henüz veritabanına kaydedilmemiştir ve genellikle boş olur. Yani bu durumda form.instance.field şeklinde bir form alanına erişmek genellikle boş bir değer döndürür.		
+                {% endcomment %}
+                {% if order.pizza.image %}
+                <img src="{{ order.pizza.image.url }}"  style=" border-radius: 50%; width: 60px; height: 60px" >
+                {% endif %}
+            </div> 
+            <div class="col-md-5 d-flex justify-content-start flex-fill">
+                <div class="card-body">
+                    <p class="card-title"><strong>Pizza:</strong> {{ order.pizza }} 🍕  <strong>Size:</strong> {{ order.size }} 🍕 <strong>X :</strong> {{ order.quantity }} </p>              
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center rounded">
+                <a href="{% url 'order_detail' order.id %}"> <button class=" btn btn-info me-2">Detail</button></a>
+            <a href="{% url 'order_update' order.id %}"> <button class=" btn btn-warning me-2">Update</button></a>
+             <a href="{% url 'order_delete' order.id %}"><button class=" btn btn-danger me-2" onclick="return confirm('Are you sure?')">Delete</button></a>
+          </div> 
+        </div>
+      </div>
+      {% endfor %}
+</div>
+
+{% endblock container %}
