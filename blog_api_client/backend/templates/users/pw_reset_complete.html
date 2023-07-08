@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<div class="mx-auto d-flex flex-column justify-content-center align-items-center gap-3 pt-5">
+  <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Password Reset Complete</h2>
+        <hr>
+        <p>Your password has been reset successfully.</p>
+        <p>You can now log in with your new password.</p>
+        <a class="btn btn-primary" href="http://localhost:3000/login/"><b>Login</b></a>
+      </div>
+  </div>
+</div>
+
+{% endblock container %}

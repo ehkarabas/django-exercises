@@ -8,4 +8,10 @@
 	<a href="https://ehkarabas.pythonanywhere.com/">
 		<img src="https://img.shields.io/badge/flight%20API-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
 	</a>
+	<a href="https://blogapitest.pythonanywhere.com/swagger/">
+		<img src="https://img.shields.io/badge/blog%20API-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
+	</a>
+	<a href="https://blog-client-ehkarabas.netlify.app/">
+		<img src="https://img.shields.io/badge/blog%20APP-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
+	</a>
 </div>
