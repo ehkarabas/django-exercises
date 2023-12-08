@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block page_title %}
+  list.html
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {% for product in products %}
+          <div class="card mb-5">
+            <div class="row g-0">
+              <div class="col-md-3 p-3">
+                {% if product.image %}
+                  <!-- İmaj varsa göster -->
+                  <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="..." />
+                {% else %}
+                  <!-- İmaj yoksa default bir resim göster -->
+                  <img src="{% static 'images/no-image.png' %}" class="img-fluid rounded-start" alt="..." />
+                {% endif %}
+              </div>
+              <div class="col-md-9">
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.name|title }} <a href="{% url 'edit_product' product.id %}"><i class="fa-regular fa-pen-to-square"></i></a> <a href="{% url 'delete_product' product.id %}" class="text-secondary"><i class="fa-solid fa-trash"></i></a></h5>
+                  <p class="card-text">{{ product.description|capfirst }}</p>
+                  <p class="card-text">Fiyat : {{ product.price|floatformat }}</p>
+                  <p class="card-text">
+                    <small class="text-body-secondary">Last updated 3 mins ago</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_files %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

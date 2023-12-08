@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+
+{% endblock %}
+
+{% block page_title %}
+  {{ product.name|upper }} Delete
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {# prettier-ignore-start #}
+        <p>
+          <strong>{{ product.name }}</strong> isimli urunu silmek istediginizden emin misiniz?
+          
+          <form action="{% url 'delete_product' product.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Evet</button>
+            <a href="{% url 'list_products_by_query' %}">
+              <button class="btn btn-primary" type="button">Hayir</button>
+            </a>
+          </form>
+        </p>
+        {# prettier-ignore-end #}
+      </div>
+    </div>
+  </div>
+{% endblock %}

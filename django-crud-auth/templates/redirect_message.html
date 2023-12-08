@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+
+{% endblock %}
+
+{% block page_title %}
+  Yonlendiriliyor...
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {# prettier-ignore-start #}
+        <small class="text-body-secondary"><span id="countdown">5</span> saniye icinde yonlendiriliyorsunuz...</small>
+        {# prettier-ignore-end #}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_files %}
+  <script>
+    {% comment %} setTimeout(function () {
+      window.location.href = '{% url redirect_to %}'
+    }, 1500)  {% endcomment %}
+    
+    let remainingTime = 5 // Toplam süreyi saniye cinsinden belirle
+    const countdownElement = document.getElementById('countdown')
+    // redirectTo ve redirectToNext değişkenleri context'ten dinamik olarak gelir.
+    // DTL url (% url urlPathName %) kullanilamaz cunku redirect_gate is_next parametresi True oldugunda DTL url icine explicit url gonderilir gonderilmez NoReverseMatch(/product/create) gibi bir hata alinir. Bunun icin is_next True oldugunda reverse islemi redirect_gate function'inda halledilip context'e kosula uygun sekilde her iki key icin de daima explicit url gonderilir ve template'te de DTL url kullanimindan vazgecilir.
+    const redirectToNext = "{{ redirect_to_next }}";
+    const redirectTo = "{{ redirect_to }}"
+    
+    const countdownInterval = setInterval(function () {
+      --remainingTime;
+      countdownElement.textContent = remainingTime;
+
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+        if (redirectToNext == "undefined") {
+          {% comment %} window.location.href = '{% url redirect_to %}' {% endcomment %}
+          window.location.href = redirectTo;
+        } else {
+          window.location.href = redirectToNext;
+        }
+      }
+    }, 1000);
+  </script>
+{% endblock %}

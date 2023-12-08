@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block page_title %}
+  upload.html
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-8 m-auto">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {# Non-field Errors #}
+          {% if form.non_field_errors %}
+            <div class="alert alert-warning">
+              {% for error in form.non_field_errors %}
+                <p class="mb-0">- {{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="row">
+            {# Field Errors #}
+            {% if form.images.errors %}
+              <div class="col alert alert-danger">
+                {% for error in form.images.errors %}
+                  <p class="mb-0">- {{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="col-2">
+              {# Form Field Labeli #}
+              <label class="form-label" for="{{ form.images.id_for_label }}">{{ form.images.label }}</label>
+            </div>
+            <div class="col-10">
+              {# prettier-ignore #}
+              {{ form.image }}
+            </div>
+          </div>
+          <div class="d-flex justify-content-center pt-3">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_files %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

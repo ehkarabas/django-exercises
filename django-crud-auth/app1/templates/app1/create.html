@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block page_title %}
+  create.html
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          {# Non-field Errors #}
+          {% if product_create_form.non_field_errors %}
+            <div class="alert alert-warning">
+              {% for error in product_create_form.non_field_errors %}
+                <p class="mb-0">- {{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {# Tum field'lar icin toplu duzenleme, for dongusu ile #}
+          {% for field in product_create_form %}
+            <div class="mb-3{% if product_create_form.price.errors %}{% endif %}">
+              {# Field Errors #}
+              {% if field.errors %}
+                <div class="alert alert-danger">
+                  {% for error in field.errors %}
+                    <p class="mb-0">- {{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {# Form Field Labeli #}
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+              {# Form Field #}
+              {{ field }}
+
+              {# Helper Text #}
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_files %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

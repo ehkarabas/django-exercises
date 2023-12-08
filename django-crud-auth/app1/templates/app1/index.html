@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block page_title %}
+  index.html
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex flex-column gap-2 align-items-start">
+          <a href="{% url 'create_product' %}">create product</a>
+          <a href="{% url 'list_products_by_query' %}">list all products</a>
+        </div>
+        <hr />
+        <form action="{% url 'list_products_by_query' %}" method="GET">
+          <div class="row col-12 col-md-10 col-lg-8 m-auto">
+            <div class="form-group row col-sm-10">
+              <label for="queryWord" class="col-sm-4 col-form-label">Product Query :</label>
+              <div class="col-sm-8">
+                <input id="queryWord" type="text" name="q" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+        <ul>
+          {% for product in products %}
+            <li>
+              <a href="{% url 'products_by_slug' product.slug %}">{{ product.name }}</a>
+              - {{ product.price }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_files %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

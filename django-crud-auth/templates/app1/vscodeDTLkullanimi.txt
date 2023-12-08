@@ -1,0 +1,95 @@
+==ALTERNATIF YOL==
+VSCode’da DTL kullanildiginda Prettier default formatter ise format on save’de tum dtl tag’lerini tek satirda sureklilestirir. Bunun onune gecmek icin djlint(monosans) ve black formatter(microsoft) eklentileri kurulmalidir ve User Settings JSON’da:
+"emmet.includeLanguages": {
+    "django-html": "html"
+  },
+"files.associations": {
+    "*.py": "python",
+    "**/*.html": "html",
+    "**/templates/*/*.html": "django-html",
+    "**/templates/*.html": "django-html",
+    "**/templates/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+"[python]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[html][django-html]": {
+    "editor.defaultFormatter": "monosans.djlint"
+  },
+https://stackoverflow.com/questions/70570285/python-formatting-in-vscode-ruins-django-templates#77033585
+
+ve python virtual environment aktifken;
+pip install -U djlint
+
+Yukaridaki files.associations key’inde 2("**/*.html") ve 3("**/templates/*/*.html"), 3("**/templates/*/*.html") ve 4("**/templates/*") birbiri ile cakisabilir gibi gorunse de genellikle Visual Studio Code, en spesifik glob desenini tercih eder, yani her iki cakismada da Django HTML ayari(3) gecerli olacaktir.
+
+Djlint global olarak kurulmadiginda diger dosyalar icin de Python interpreter’da kurulu olmadigina dair hata verebilmektedir. Bunu onlemek icin python -m pip install -U djlint ile global’e de kurulmalidir. Ancak bu settings.json ayarlari ile yalnizca django-html dosyalarinda aktif olacaktir.
+
+Python’da bir paket ile birlikte kurulan ve o paketin gerektirdigi diger paketleri goruntulemek icin pip show packageName komutu calistirilabilir, buradaki Requires key’inde tum paketler packageName ile birlikte kurulmus olan paketlerdir. pip show djlint ile Requires keyi:
+
+Requires: click, colorama, cssbeautifier, html-tag-names, html-void-elements, jsbeautifier, json5, pathspec, PyYAML, regex, tqdm seklinde olmaktadir. Djlint i ve birlikte kurulmus olan tum paketleri kaldirmak icin;
+
+pip uninstall click -y
+pip uninstall colorama -y
+pip uninstall cssbeautifier -y
+pip uninstall html-tag-names -y
+pip uninstall html-void-elements -y
+pip uninstall jsbeautifier -y
+pip uninstall json5 -y
+pip uninstall pathspec -y
+pip uninstall PyYAML -y
+pip uninstall regex -y
+pip uninstall tqdm -y
+pip uninstall djlint -y
+
+Sonda yer alan -y pip’in kaldırma işlemi icin isteyecegi onayi otomatik onaylamayi saglar ve islemi hizlandirir. Bu islemden sonra User Settings JSON’daki " [html][django-html]": keyi " [django-html]": olarak degistirildiginde HTML dosyalarindaki djlint kontrolunden tamamen kurtulunmus olacaktir. Django ile calisilacagi zaman islemler tersine cevrilebilir.
+
+! ile olusturulmus template’te djlint’in meta hatasi vermemesi icin meta:desc ve meta:kw meta’larinin head’e eklenmesine ihtiyac vardir.
+<meta name="description" content="django template" />
+<meta name="keywords" content="django template" />
+
+==TAVSIYE EDILEN YOL==
+Bu bir yoldur, bir de cok kisa ve daha verimli bir yol var Django Template Support formatter eklentisi ile yapilan. 
+Django Template Support’i kurup;
+
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+"[python]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+"files.associations": {
+    "*.py": "python",
+    "**/*.html": "html",
+    "**/templates/*/*.html": "django-html",
+    "**/templates/*.html": "django-html",
+    "**/templates/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  "[django-html]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "junstyle.vscode-django-support"
+  },  
+  "html.format.templating": true,
+
+ayarlari User Settings JSON’da yapildiktan sonra CTRL + Shift + P Reload Window yapilir ve pylance ile cakismayan(Django class ve function’larina hover yapildiginda aciklamalarinin gorundugu ve CTRL ile tiklanarak koda gidilebildigi) durum elde edilmis olur. Djlint Django Template dosyalari disindaki HTML dosyalarinda da(react public index.html’de ornegin) pek cok hata gosterebilmekte ve django’da pylance ile cakisma olusturabilmektedir.
+
+Bu eklenti ayrica prettier uzerinde ekstra kontrol de saglamaktadir, mesela;
+{# prettier-ignore #}
+<div   class="weird-formatting"   >This will not be re-formatted</div>
+<div   class="weird-formatting"   >But this will be</div>
+{# prettier-ignore-start #}
+    ...
+{# prettier-ignore-end #}
+
+Normalde VSCode'da DTL için renklendirme sağlayan eklenti Django'dur ancak Monokai Pro tag'leri olabildigince tek duze yaptigi icin Theme by Language ile Django Template dosyalari icin farkli bir theme ornegin One Dark Pro Darker belirlenebilir. Theme by language eklentisi ile Django Template language’in aktif oldugu sekmelerde farkli bir tema kullanilabilir. CTRL + Shift + P ile Set theme for current file language(Shift + Alt + T) secilip bir tema secilerek bu islem gerceklestirilebilir. Clear all registered custom themes for file languages secilerek olusturulmus tum custom theme’ler iptal edilebilir. Set default theme ile ise o sekmedeki aktif tema default theme haline getirilebilir. 
+
+Django Template Support eklentisinde bir template dosyasinda yoruma alinan bir bolumu uncomment etmek icin yoruma alinan bolum isiklanip CTRL + / yapilmalidir.
+
+Django Template’lerinde bootstrap class’larinin VSCode’da auto complete olmasini saglamak icin User Settings JSON’a(HTML CSS Support eklentisinin kurulu oldugu varsayilarak):
+"css.enabledLanguages": ["html", "django-html"],
+  "css.styleSheets": [
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  ],
+eklenmelidir. Bu eklendikten sonra Intellisense for CSS class names in HTML eklentisinin(kurulu oldugu varsayilarak) sol alt kosede cikardigi yildirim ikonuna tiklanarak CSS class’lari cache’lenir, CTRL+Shift+P ile window reload yapilarak kullanima hazir olur.

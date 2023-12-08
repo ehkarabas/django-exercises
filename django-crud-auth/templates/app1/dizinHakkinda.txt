@@ -1,0 +1,23 @@
+Template'ler bir HTML taslağı içinde sabit bölümlerin aralarına değişken yer tutucular ekleyerek gelen endpoint'lere göre view'lar ile görüntü almayı sağlar. 
+
+Template'ler bir klasörde toplanır ve bu klasör genellikle app klasörü içinde olmakla birlikte proje klasörünün bulunduğu dizinde de olusturulabilecek templates isimli bir klasördür. 
+
+Project dizinindeki templates klasörü içine konumlandırmak tercih edildiyse bu klasör altına appName adında bir klasör daha oluşturulmalı ve template'ler burada toplanmalıdır. 
+
+Project klasörünün olduğu dizindeki(settings.py'daki BASE_DIR) templates klasörü kullanılacaksa bunun için settings.py'daki TEMPLATES listesindeki object'te DIRS key'inin value'sunu 
+'DIRS': [
+  BASE_DIR / "templates"
+],
+seklinde belirlemek gerekir.
+
+Template'leri görüntülemek için HttpResponse yerine django.shortcuts'tan render döndürülmeli ve ilk argümanı request ikinci argümanı ise template path'i olmalıdır. 
+
+View'da return edilen render'a girilecek template path argümanı ise myapp/index.html şeklinde olmalıdır. (projectDir_templates>myapp>index.html icin) Mesela return render(request,"app1/index.html") gibi.
+
+Django Template’lerinde(html dosyalarinda) VSCode HTML snippet’larinin(! ile HTML olusturma ve tag tamamlamalari gibi) kullanilmasi isteniyorsa VSCode User Settings JSON’a:
+"emmet.includeLanguages": {
+  "django-html": "html"
+},
+eklenmelidir.
+https://stackoverflow.com/questions/65632975/any-way-to-integrate-html-snippets-with-django-snippets#65633546
+

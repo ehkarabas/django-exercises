@@ -14,4 +14,7 @@
 	<a href="https://blog-client-ehkarabas.netlify.app/">
 		<img src="https://img.shields.io/badge/blog%20APP-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
 	</a>
+  <a href="http://djangocrudauth.pythonanywhere.com/products/">
+		<img src="https://img.shields.io/badge/CRUD%20AUTH%20API-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
+	</a>
 </div>
