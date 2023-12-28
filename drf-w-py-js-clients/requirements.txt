@@ -1,0 +1,12 @@
+django>=5.0.0,<=5.1.0 
+djangorestframework
+pyyaml 
+requests 
+django-cors-headers 
+pyreadline 
+algoliasearch-django
+python-decouple 
+djangorestframework-simplejwt 
+faker
+drf-yasg
+setuptools

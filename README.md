@@ -17,4 +17,7 @@
   <a href="http://djangocrudauth.pythonanywhere.com/products/">
 		<img src="https://img.shields.io/badge/CRUD%20AUTH%20API-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
 	</a>
+  <a href="http://drfalgoliapyjsclients.pythonanywhere.com/swagger/">
+		<img src="https://img.shields.io/badge/DRF%20W%20ALGOLIA%20&%20CLIENTS-%23.svg?&style=for-the-badge&logo=www&logoColor=white%22&color=black">
+	</a>
 </div>

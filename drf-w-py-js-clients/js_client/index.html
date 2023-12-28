@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Client</title>
+  </head>
+  <body>
+    <form id="login-form" method="POST">
+      <input
+        id="username-input"
+        type="text"
+        name="username"
+        placeholder="Your Username"
+      />
+      <input
+        id="password-input"
+        type="password"
+        name="password"
+        placeholder="Your Password"
+      />
+      <input type="submit" value="Login" />
+    </form>
+
+    <form id="search-form" method="GET">
+      <input id="search-input" type="text" name="q" placeholder="Your Search" />
+      <input type="submit" value="Search" />
+    </form>
+
+    <div id="content-container"></div>
+
+    <!-- * Own JS -->
+    <script src="./client.js"></script>
+  </body>
+</html>
